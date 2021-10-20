@@ -44,7 +44,12 @@ class Main{
     _removeFromList = () => {
         let codigo = document.getElementById("id").value;
         let result = this._storage.remove(codigo);
-        this.sendMessage("Eliminar",result);
+        if(result == null){
+            this.sendMessage("Eliminar",`No se encontro un producto con el codigo ${codigo}`);
+        }else{
+        let text = `Se elimino: <br> ${result.info()}`
+        this.sendMessage("Eliminar",text);
+        }
     }
 
     _searchFromList = () => {
@@ -59,12 +64,22 @@ class Main{
 
     _ShowAll = () => {
         let text = this._storage.showAll();
-        this.sendMessage("Mostrar",text);
+        if(text == ""){
+            this.sendMessage("Mostrar","No se encontro nada en la lista")
+        }
+        else{
+            this.sendMessage("Mostrar",`Los productos encontrados fueron: <br>` + text);
+        }
     }
 
     _ShowAllInv = () => {
         let text = this._storage.showAllInv();
-        this.sendMessage("Mostrar Invertido",text);
+        if(text == ""){
+            this.sendMessage("Mostrar Invertido","No se encontro nada en la lista")
+        }
+        else{
+            this.sendMessage("Mostrar Invertido",`Los productos encontrados fueron: <br>` + text);
+        }
     }
     
 }

@@ -22,19 +22,25 @@ export default class Storage{
     }
 
     remove(id){
-        let pos = this._storage.findIndex( (p) => {
-            if(p.getId() == id){
-                return(true);
-            }else {
-                return(false);
-            }
-        });
-        if(pos >= 0){
-            let text = `Se ha removido el producto [${this._storage[pos].getName()}] de la lista`;
-            this._storage.splice(pos,1);
-            return(text);
+        let elim = null;
+        if(id == this._inicio.getId()){
+            elim = this._inicio;
+            this._inicio = this._inicio.siguiente;
+            elim.siguiente = null;
+            return(elim);
         }
-        return(null);
+        let temp = this._inicio;
+        while(temp.siguiente != null && elim == null){
+            if(temp.siguiente.getId() == id){
+                elim = temp.siguiente;
+                temp.siguiente = temp.siguiente.siguiente;
+                elim.siguiente = null;
+            }
+            else{
+                temp = temp.siguiente;
+            }
+        }
+        return(elim);
     }
 
     search(id){
@@ -49,52 +55,38 @@ export default class Storage{
     }
 
     showAll(){
-        let text = "Los productos en la lista son: <br>";
-        let total = 0;
-        let temp = this._inicio;
-        while(temp!=null){
-            text += `${temp.info()} <br>`;
-            total += temp.getTotal();
-            temp = temp.siguiente;
+        if(this._inicio == null){
+            return("");
         }
-        text += `Total = $ ${total}`;
-        return(text);
+        else{
+            return(this._showAll(this._inicio));
+        }
+    }
+
+    _showAll(n){
+        if(n.siguiente == null){
+            return(n.info());
+        }
+        else{
+            return(n.info() + "<br>" + this._showAll(n.siguiente));
+        }
     }
 
     showAllInv(){
-        let text = "Los productos en la lista invertida son: <br>";
-        let total = 0;
-        this._storage.reverse().forEach((p) => {
-            text = text + `[Codigo ${p.getId()}: ${p.getName()} ${p.getQuantity()} unidades, $${p.getPrice()} C/U] <br>`
-            total += p.getTotal();
-        });
-        text += `Total = $ ${total}`;
-        this._storage.reverse();
-        return(text);
+        if(this._inicio == null){
+            return("");
+        }
+        else{
+            return(this._showAllInv(this._inicio));
+        }
     }
 
-    _exists(id){ // Funcion para que al añadir revise que no haya un producto con mismo ID
-        let aux = false;
-        this._storage.forEach((p) =>{
-            if(p.getId() == id){
-                aux = true;
-            }
-        });
-        return(aux);
-    }
-
-    _sortStorage(){
-        if(this._storage.length >= 2){
-            for(let i = 1; i<this._storage.length; i++){
-                for(let j = this._storage.length-1; j>=i;j--){
-                    console.log(this._storage[j-1]);
-                    if(this._storage[j-1].getId() > this._storage[j].getId()){
-                        let aux = this._storage[j-1];
-                        this._storage[j-1] = this._storage[j];
-                        this._storage[j] = aux;
-                    }
-                }
-            }
+    _showAllInv(n){
+        if(n.siguiente == null){
+            return(n.info());
+        }
+        else{
+            return(this._showAllInv(n.siguiente) + "<br>" + n.info());
         }
     }
 
