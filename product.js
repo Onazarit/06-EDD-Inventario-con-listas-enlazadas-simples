@@ -8,7 +8,7 @@ export default class Product{
     }
 
     info(){
-        return ` Id: ${this._id} | Nombre: ${this._name} | Total: ${this.getTotal()}`;
+        return ` Id: ${this._id} | Nombre: ${this._name} | Precio: $${this._price} | Cantidad: ${this._quantity} | Total: ${this.getTotal()}`;
     }
 
     getId(){

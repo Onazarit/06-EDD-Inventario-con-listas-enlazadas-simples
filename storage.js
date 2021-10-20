@@ -38,17 +38,14 @@ export default class Storage{
     }
 
     search(id){
-        let pos = this._storage.findIndex( (p) => {
-            if(p.getId() == id){
-                return(true);
-            }else {
-                return(false);
+        let temp = this._inicio;
+        while(temp!=null){
+            if(temp.getId() == id){
+                return(temp);
             }
-        });
-        if(pos >= 0){
-            return(`El producto con codigo ${this._storage[pos].getId()} encontrado fue:  [${this._storage[pos].getQuantity()} unidades de ${this._storage[pos].getName()} a ${this._storage[pos].getPrice()} c/u]`);
+            temp = temp.siguiente;
         }
-        return(`No se encontro el producto buscado`);
+        return null;
     }
 
     showAll(){

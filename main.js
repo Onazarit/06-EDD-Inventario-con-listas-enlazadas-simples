@@ -38,16 +38,6 @@ class Main{
         
         this._storage.add(producto);
 
-        // if(this._storage.length >= 20){ //Capacidad de almacenamiento
-        //     this.sendMessage("Añadir","Fallo al registrar, el inventario esta lleno");
-        //     return;
-        // }
-
-        // if(aux == false){
-        //     this.sendMessage("Añadir","Fallo al registrar, el producto ya esta ingresado");
-        //     return;
-        // }
-        
         this.sendMessage("Añadir",`Registro completo, se añadieron: [${producto.getQuantity()} unidades de ${producto.getName()} a ${producto.getPrice()} C/U]`);
     }
 
@@ -60,7 +50,11 @@ class Main{
     _searchFromList = () => {
         let codigo = document.getElementById("id").value;
         let result = this._storage.search(codigo);
-        this.sendMessage("Buscar",result);
+        if(result == null){
+            this.sendMessage("Buscar",`No se encontro un producto con el codigo ${codigo}`);
+        }
+        let text = `Se encontro: <br> ${result.info()}`
+        this.sendMessage("Buscar",text);
     }
 
     _ShowAll = () => {
