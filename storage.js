@@ -90,4 +90,21 @@ export default class Storage{
         }
     }
 
+    addOnPosition(position,producto){
+        let temp = this._inicio;
+        if(position == 1){
+            this._inicio = producto;
+            producto.siguiente = temp;
+        }
+        else{
+            for(let i=1; i<position-1; i++){
+                temp = temp.siguiente;
+            }
+            let tempnext = temp.siguiente;
+            temp.siguiente = producto;
+            producto.siguiente = tempnext;
+        }
+
+    }
+
 }
