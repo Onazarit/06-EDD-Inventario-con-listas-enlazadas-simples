@@ -56,7 +56,7 @@ export default class Storage{
         let total = 0;
         let temp = this._inicio;
         while(temp!=null){
-            text += ` ${temp.info()} + <br>`;
+            text += `${temp.info()} <br>`;
             total += temp.getTotal();
             temp = temp.siguiente;
         }
